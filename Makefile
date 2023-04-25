@@ -6,13 +6,14 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/04/21 10:35:29 by anmassy          ###   ########.fr        #
+#    Updated: 2023/04/25 10:53:30 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =	srcs/error.c \
 		srcs/utils.c \
 		srcs/child.c \
+		srcs/ft_split.c \
 		srcs/pipex.c
 
 OBJ = $(SRC:.c=.o)
