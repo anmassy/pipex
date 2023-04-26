@@ -6,13 +6,13 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/26 11:30:33 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/26 16:55:47 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	waiting(t_pipex pipex)
+void	ft_waiting(t_pipex pipex)
 {
 	waitpid(pipex.pid1, NULL, 0);
 	waitpid(pipex.pid2, NULL, 0);
@@ -42,6 +42,8 @@ void	first_child(t_pipex pipex, char **av, char **env)
 	close(pipex.tube[0]);
 	close(pipex.tube[1]);
 	dup2(pipex.infile, 0);
+	close(pipex.infile);
+	close(pipex.outfile);
 	pipex.cmd_arg = ft_split(av[2], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_arg[0]);
 	if (!pipex.cmd)
@@ -59,6 +61,8 @@ void	second_child(t_pipex pipex, char **av, char **env)
 	close(pipex.tube[0]);
 	close(pipex.tube[1]);
 	dup2(pipex.outfile, 1);
+	close(pipex.infile);
+	close(pipex.outfile);
 	pipex.cmd_arg = ft_split(av[3], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_arg[0]);
 	if (!pipex.cmd)
@@ -84,5 +88,6 @@ int	child(t_pipex pipex, char **av, char **env)
 		second_child(pipex, av, env);
 	close(pipex.tube[0]);
 	close(pipex.tube[1]);
+	ft_waiting(pipex);
 	return (1);
 }

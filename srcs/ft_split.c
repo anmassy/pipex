@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:52:55 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/25 12:51:23 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/26 16:47:15 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,14 @@ char	*word(char const *str, char c)
 		i++;
 	word = (char *)malloc((i + 1) * sizeof(char));
 	if (!word)
-	{
-		free(word);
 		return (NULL);
-	}
 	i = 0;
 	while (str[i] != c && str[i])
 	{
 		word[i] = str[i];
 		i++;
 	}
+	word[i] = 0;
 	return (word);
 }
 
