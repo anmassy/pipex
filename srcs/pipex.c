@@ -6,22 +6,17 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/25 10:56:53 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/26 11:30:45 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	waiting(t_pipex pipex)
+char	*get_path(char **env)
 {
-	waitpid(pipex.pid1, NULL, 0);
-	waitpid(pipex.pid2, NULL, 0);
-}
-
-void	close_tubes(t_pipex pipex)
-{
-	close(pipex.tube[0]);
-	close(pipex.tube[1]);
+	while (ft_strncmp("PATH", *env, 4))
+		env++;
+	return (*env + 5);
 }
 
 int	main(int ac, char **av, char **env)
@@ -33,12 +28,18 @@ int	main(int ac, char **av, char **env)
 	pipex.infile = open(av[1], O_RDONLY);
 	if (pipex.infile < 0)
 		error_output(ERR_INFILE);
-	pipex.outfile = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	pipex.outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (pipex.outfile < 0)
 		error_output(ERR_OUTFILE);
-	if (!child(pipex, av, env))
+	if (pipe(pipex.tube) < 0)
+		error_msg(ERR_TUBE);
+	pipex.paths = get_path(env);
+	pipex.cmd_paths = ft_split(pipex.paths, ':');
+	if (child(pipex, av, env) == 0)
 		return (0);
 	waiting(pipex);
-	close_tubes(pipex);
+	close(pipex.infile);
+	close(pipex.outfile);
+	free_parent(pipex);
 	return (0);
 }

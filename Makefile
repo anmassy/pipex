@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/04/25 10:53:30 by anmassy          ###   ########.fr        #
+#    Updated: 2023/04/26 10:14:09 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ SRC =	srcs/error.c \
 		srcs/utils.c \
 		srcs/child.c \
 		srcs/ft_split.c \
+		srcs/free.c \
 		srcs/pipex.c
 
 OBJ = $(SRC:.c=.o)

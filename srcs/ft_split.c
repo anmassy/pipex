@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:52:55 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/25 10:55:07 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/25 12:51:23 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*word(char const *str, char c)
 	i = 0;
 	while (str[i] != c && str[i])
 		i++;
-	word = ft_calloc((i + 1), sizeof(char));
+	word = (char *)malloc((i + 1) * sizeof(char));
 	if (!word)
 	{
 		free(word);
@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	len = count_words(s, c);
 	i = -1;
-	string = ft_calloc((len + 1), sizeof(char *));
+	string = (char **)malloc((len + 1) * sizeof(char *));
 	if (!string)
 		return (NULL);
 	while (++i < len)
