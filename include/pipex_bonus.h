@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/26 15:11:59 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/27 11:26:48 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,12 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 }t_pipex;
+
+/* error_bonus.c */
+int	error_msg(char *err);
+int	error_output(char *err);
+
+/* utils_bonus.c */
+int	ft_strlen(char *s);
 
 #endif
