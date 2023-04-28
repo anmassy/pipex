@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 13:15:18 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 15:46:34 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	main(int ac, char **av, char **env)
 		error_msg(ERR_TUBE);
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
-	if (child(p, av, env) == 0)
-		return (0);
+	child(p, av, env);
 	close(p.infile);
 	close(p.outfile);
 	free_parent(p);

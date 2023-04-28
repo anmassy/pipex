@@ -6,60 +6,64 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 13:30:22 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 16:30:05 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex_bonus.h"
 
-char	*get_cmd(char **paths, char *cmd)
+char	*get_path(char **env)
 {
-	char	*slash;
-	char	*command;
+	while (*env && ft_strncmp("PATH", *env, 4))
+		env++;
+	if (!*env)
+		return (ft_strjoin("", ""));
+	return (ft_strjoin(*env + 5, ""));
+}
 
-	while (*paths)
+char	*get_exec(t_pipex p, char *av, char **env)
+{
+	char	*cmd_slash;
+
+	p.cmd_arg = ft_split(av, ' ');
+	while (*p.cmd_paths)
 	{
-		slash = ft_strjoin(*paths, "/");
-		command = ft_strjoin(slash, cmd);
-		free(slash);
-		if (access(command, X_OK) == 0)
-			return (command);
-		free(command);
-		paths++;
+		cmd_slash = ft_strjoin(*p.cmd_paths, "/");
+		p.cmd = ft_strjoin(cmd_slash, *p.cmd_arg);
+		free(cmd_slash);
+		if (access(p.cmd, F_OK) == 0)
+		{
+			if (execve (p.cmd, p.cmd_arg, env) == -1)
+			{
+				error_msg(ERR_CMD);
+				exit (1);
+			}
+		}
+		free(p.cmd);
+		p.cmd_paths++;
 	}
 	return (NULL);
 }
 
-void	child(t_pipex p, char **av, char **env)
+void	child(t_pipex p, char *av, char **env)
 {
-	int	i;
-
-	i = 0;
-	while (i <= p.cmd_num)
+	if (pipe(p.tube) < 0)
+		error_msg(ERR_TUBE);
+	p.pid = fork();
+	if (p.pid < 0)
+		exit(1);
+	if (p.pid == 0)
 	{
-		p.pid = fork();
-		if (p.pid < 0)
-			exit(1);
-		if (p.pid == 0)
-		{
-			dup2(p.dup, 0);
-			dup2(p.tube[1], 1);
-			close(p.tube[0]);
-			p.cmd_arg = ft_split(av[i + 2], ' ');
-			p.cmd = get_cmd(p.cmd_paths, p.cmd_arg[0]);
-			if (!p.cmd || execve (p.cmd, p.cmd_arg, env) == -1)
-			{
-				error_msg("erreur\n");
-				exit(1);
-			}
-			exit(1);
-		}
-		else
-		{
-			waitpid(p.pid, NULL, 0);
-			close(p.tube[1]);
-			p.dup = p.tube[0];
-			i++;
-		}
+		close(p.tube[0]);
+		dup2(p.tube[1], 1);
+		close(p.tube[0]);
+		get_exec(p, av, env);
+	}
+	else
+	{
+		close(p.tube[1]);
+		dup2(p.tube[0], 0);
+		close(p.tube[0]);
+		waitpid(p.pid, NULL, 0);
 	}
 }
