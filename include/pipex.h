@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/26 16:48:51 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:02:36 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ char	*get_paths(char **env);
 int		error_msg(char *err);
 int		error_output(char *err);
 
-/* utils.c */
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_strlen(char *s);
-char	*ft_strjoin(char *s1, char *s2);
-
 /* child.c */
 void	ft_waiting(t_pipex pipex);
 char	*get_cmd(char **paths, char *cmd);
@@ -69,11 +64,11 @@ void	first_child(t_pipex pipex, char **av, char **env);
 void	second_child(t_pipex pipex, char **av, char **env);
 int		child(t_pipex pipex, char **av, char **env);
 
-/* ft_split.c */
-int		count_words(char const *str, char c);
-char	*word(char const *str, char c);
-void	*free_all(char **string, int position);
+/* utils_fonction */
 char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* free.c */
 void	free_child(t_pipex pipex);

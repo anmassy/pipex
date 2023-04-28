@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/27 11:26:48 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 12:53:24 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,39 @@
 # define ERR_INPUT "Invalid number of arguments.\n"
 # define ERR_INFILE "Infile not correct.\n"
 # define ERR_OUTFILE "Outfile not correct.\n"
+# define ERR_TUBE "Tube dosen't exist\n"
+
+typedef int t_pipe[2];
 
 typedef struct s_pipex
 {
+	pid_t	pid;
 	int		infile;
 	int		outfile;
+	t_pipe	*tube;
+	char	*cmd;
+	char	*paths;
+	char	**cmd_arg;
+	char	**cmd_paths;
+	int		cmd_num;
+	int		dup;
 }t_pipex;
 
-/* error_bonus.c */
-int	error_msg(char *err);
-int	error_output(char *err);
+/* pipex_bonus.c */
+char	*get_path(char **env);
 
-/* utils_bonus.c */
-int	ft_strlen(char *s);
+/* child_bonus.c */
+char	*get_cmd(char **paths, char *cmd);
+int		child(t_pipex pipex, char **av, char **env);
+
+/* error_bonus.c */
+int		error_msg(char *err);
+int		error_output(char *err);
+
+/* fonction */
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

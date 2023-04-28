@@ -6,11 +6,20 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/27 11:24:43 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 12:47:58 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex_bonus.h"
+
+char	*get_path(char **env)
+{
+	while (*env && ft_strncmp("PATH", *env, 4))
+		env++;
+	if (!*env)
+		return (ft_strjoin("", ""));
+	return (ft_strjoin(*env + 5, ""));
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -25,6 +34,12 @@ int	main(int ac, char **av, char **env)
 	pipex.outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (pipex.outfile < 0)
 		error_output(ERR_OUTFILE);
-	// child(pipex, av, env);
+	if (!pipex.tube)
+		return (0);
+	if (pipe(pipex.tube[1]) < 0)
+		error_msg(ERR_TUBE);
+	pipex.paths = get_path(env);
+	pipex.cmd_paths = ft_split(pipex.paths, ':');
+	child(pipex, av, env);
 	return (0);
 }

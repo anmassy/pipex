@@ -6,20 +6,21 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/04/27 11:26:16 by anmassy          ###   ########.fr        #
+#    Updated: 2023/04/28 13:01:42 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC =	srcs/error.c \
-		srcs/utils.c \
+SRC =	srcs/ft_split.c \
+		srcs/ft_strlen.c \
+		srcs/ft_strncmp.c \
+		srcs/ft_strjoin.c \
+		srcs/error.c \
 		srcs/child.c \
-		srcs/ft_split.c \
 		srcs/free.c \
 		srcs/pipex.c
 
 SRC_BONUS =	bonus/pipex_bonus.c \
 			bonus/error_bonus.c \
-			bonus/utils_bonus.c \
 			bonus/child_bonus.c
 
 OBJ = $(SRC:.c=.o)
@@ -51,21 +52,27 @@ start:
  ║                    by: anmassy                     ║ \n\
  ║                                                    ║ \n\
  ╚════════════════════════════════════════════════════╝"
-	@echo "  ╠═> The code is ready to be executed."
-	@echo "  ║"
-	@echo "  ╠═> You can run my program with ./pipex and 4 arguments :"
-	@echo "  ║        ╚═> ./pipex file1 cmd1 cmd2 file2"
-	@echo "  ╚═> Good Luck !"
-	@echo "$(GREEN)"
-
-bonus : $(OBJ_BONUS)
+	
+bonus : $(OBJ_BONUS) start
 	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
+	@echo "  ╠═> Bonus mode activated."
+	@echo "  ║"
+	@echo "  ╠═> You can now put as many cmd as you want :"
+	@echo "  ║        ╚═> ./pipex file1 cmd1 cmd2 ... cmdn file2"
+	@echo "  ╚═> Don't destroy my code !"
+	@echo ""
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 $(NAME): $(OBJ) start
 	@$(CC) $(CFLAGS) $(INCS) $(OBJ) -o $(NAME)
+	@echo "  ╠═> The code is ready to be executed."
+	@echo "  ║"
+	@echo "  ╠═> You can run my program with ./pipex and 4 arguments :"
+	@echo "  ║        ╚═> ./pipex file1 cmd1 cmd2 file2"
+	@echo "  ╚═> Don't destroy my code !"
+	@echo ""
 
 clean :
 	@echo "$(RED) Cleaning files..."
@@ -76,7 +83,7 @@ fclean : clean
 	@echo " Cleaning binaries..."
 	@$(RM) $(NAME)
 
-re : fclean start
+re : fclean all
 	@echo "$(GREEN) re-make finish"
 
-.PHONY : all bonus clean fclean re
+.PHONY : all start bonus clean fclean re

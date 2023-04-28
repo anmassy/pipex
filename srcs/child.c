@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/26 16:55:47 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/28 10:01:02 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,12 @@ void	first_child(t_pipex pipex, char **av, char **env)
 	close(pipex.outfile);
 	pipex.cmd_arg = ft_split(av[2], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_arg[0]);
-	if (!pipex.cmd)
+	if (!pipex.cmd || execve(pipex.cmd, pipex.cmd_arg, env) == -1)
 	{
 		free_child(pipex);
 		error_msg(ERR_CMD);
 		exit (1);
 	}
-	execve(pipex.cmd, pipex.cmd_arg, env);
 }
 
 void	second_child(t_pipex pipex, char **av, char **env)
@@ -65,13 +64,12 @@ void	second_child(t_pipex pipex, char **av, char **env)
 	close(pipex.outfile);
 	pipex.cmd_arg = ft_split(av[3], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_arg[0]);
-	if (!pipex.cmd)
+	if (!pipex.cmd || execve(pipex.cmd, pipex.cmd_arg, env) == -1)
 	{
 		free_child(pipex);
 		error_msg(ERR_CMD);
 		exit (1);
 	}
-	execve(pipex.cmd, pipex.cmd_arg, env);
 }
 
 int	child(t_pipex pipex, char **av, char **env)
