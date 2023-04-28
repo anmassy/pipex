@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 08:56:31 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 13:16:13 by anmassy          ###   ########.fr       */
+/*   Created: 2023/04/28 12:50:08 by anmassy           #+#    #+#             */
+/*   Updated: 2023/04/28 13:06:09 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "../include/pipex_bonus.h"
 
-void	free_child(t_pipex p)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	i;
-
-	i = 0;
-	while (p.cmd_arg[i])
+	while ((*s1 || *s2) && (n > 0))
 	{
-		free(p.cmd_arg[i]);
-		i++;
+		if (*s1 != *s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+		n--;
 	}
-	free(p.cmd_arg);
-	free(p.cmd);
-}
-
-void	free_parent(t_pipex p)
-{
-	int	i;
-
-	i = 0;
-	while (p.cmd_paths[i])
-	{
-		free(p.cmd_paths[i]);
-		i++;
-	}
-	free(p.cmd_paths);
-	free(p.paths);
+	return (0);
 }
