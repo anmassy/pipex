@@ -6,26 +6,26 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 17:07:06 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 09:04:32 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex_bonus.h"
 
-int	get_doc(t_pipex p, int ac, char **av, int arg)
-{
-	if (ft_strncmp("here_doc", av[1], 8))
-	{
-		arg = 3;
-		// p.infile = open("here_doc", O_RDONLY);
-		p.outfile = open(av[ac - 1], O_TRUNC | O_APPEND | O_CREAT | O_RDWR, 0644);
-	}
-}
+// int	get_doc(t_pipex p, int ac, char **av, int arg)
+// {
+// 	if (ft_strncmp("here_doc", av[1], 8))
+// 	{
+// 		arg = 3;
+// 		// p.infile = open("here_doc", O_RDONLY);
+// 		p.outfile = open(av[ac - 1], O_TRUNC | O_APPEND | O_CREAT | O_RDWR, 0644);
+// 	}
+// }
 
 int	main(int ac, char **av, char **env)
 {
 	t_pipex	p;
-	int	arg;
+	int		arg;
 
 	if (ac < 4)
 		error_msg(ERR_INPUT);
@@ -45,4 +45,3 @@ int	main(int ac, char **av, char **env)
 	get_exec(p, av[ac - 2], env);
 	return (0);
 }
-

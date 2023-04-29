@@ -6,86 +6,64 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 17:51:29 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 08:43:33 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	ft_waiting(t_pipex p)
+char	*get_path(char **env)
 {
-	waitpid(p.pid1, NULL, 0);
-	waitpid(p.pid2, NULL, 0);
+	while (*env && ft_strncmp("PATH", *env, 4))
+		env++;
+	if (!*env)
+		return (ft_strjoin("", ""));
+	return (ft_strjoin(*env + 5, ""));
 }
 
-char	*get_cmd(char **paths, char *cmd)
+char	*get_exec(t_pipex p, char *av, char **env)
 {
-	char	*slash;
-	char	*command;
+	char	*cmd_slash;
 
-	while (*paths)
+	p.cmd_arg = ft_split(av, ' ');
+	while (*p.cmd_paths)
 	{
-		slash = ft_strjoin(*paths, "/");
-		command = ft_strjoin(slash, cmd);
-		free(slash);
-		if (access(command, X_OK) == 0)
-			return (command);
-		free(command);
-		paths++;
+		cmd_slash = ft_strjoin(*p.cmd_paths, "/");
+		p.cmd = ft_strjoin(cmd_slash, *p.cmd_arg);
+		free(cmd_slash);
+		if (access(p.cmd, F_OK) == 0)
+		{
+			if (execve (p.cmd, p.cmd_arg, env) == -1)
+			{
+				error_msg(ERR_CMD);
+				exit (1);
+			}
+		}
+		free(p.cmd);
+		p.cmd_paths++;
 	}
 	return (NULL);
 }
 
-void	first_child(t_pipex p, char **av, char **env)
+void	child(t_pipex p, char *av, char **env)
 {
-	dup2(p.tube[1], 1);
-	close(p.tube[0]);
-	close(p.tube[1]);
-	dup2(p.infile, 0);
-	close(p.infile);
-	close(p.outfile);
-	p.cmd_arg = ft_split(av[2], ' ');
-	p.cmd = get_cmd(p.cmd_paths, p.cmd_arg[0]);
-	if (!p.cmd || execve(p.cmd, p.cmd_arg, env) == -1)
+	if (pipe(p.tube) < 0)
+		error_msg(ERR_TUBE);
+	p.pid = fork();
+	if (p.pid < 0)
+		exit(1);
+	if (p.pid == 0)
 	{
-		free_child(p);
-		error_msg(ERR_CMD);
-		exit (1);
+		close(p.tube[0]);
+		dup2(p.tube[1], 1);
+		close(p.tube[0]);
+		get_exec(p, av, env);
 	}
-}
-
-void	second_child(t_pipex p, char **av, char **env)
-{
-	dup2(p.tube[0], 0);
-	close(p.tube[0]);
-	close(p.tube[1]);
-	dup2(p.outfile, 1);
-	close(p.infile);
-	close(p.outfile);
-	p.cmd_arg = ft_split(av[3], ' ');
-	p.cmd = get_cmd(p.cmd_paths, p.cmd_arg[0]);
-	if (!p.cmd || execve(p.cmd, p.cmd_arg, env) == -1)
+	else
 	{
-		free_child(p);
-		error_msg(ERR_CMD);
-		exit (1);
+		close(p.tube[1]);
+		dup2(p.tube[0], 0);
+		close(p.tube[0]);
+		waitpid(p.pid, NULL, 0);
 	}
-}
-
-int	child(t_pipex p, char **av, char **env)
-{
-	p.pid1 = fork();
-	if (p.pid1 < 0)
-		return (0);
-	if (p.pid1 == 0)
-		first_child(p, av, env);
-	p.pid2 = fork();
-	if (p.pid2 < 0)
-		return (0);
-	if (p.pid2 == 0)
-		second_child(p, av, env);
-	close(p.tube[0]);
-	close(p.tube[1]);
-	ft_waiting(p);
-	return (1);
 }

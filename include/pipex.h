@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 13:16:28 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 08:55:39 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@
 
 typedef struct s_pipex
 {
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	pid;
 	int		tube[2];
 	int		infile;
 	int		outfile;
@@ -51,27 +50,20 @@ typedef struct s_pipex
 }t_pipex;
 
 /* pipex.c */
-char	*get_paths(char **env);
+char	*get_path(char **env);
 
 /* error.c */
 int		error_msg(char *err);
 int		error_output(char *err);
 
 /* child.c */
-void	ft_waiting(t_pipex p);
-char	*get_cmd(char **paths, char *cmd);
-void	first_child(t_pipex p, char **av, char **env);
-void	second_child(t_pipex p, char **av, char **env);
-int		child(t_pipex p, char **av, char **env);
+void	child(t_pipex p, char *av, char **env);
+char	*get_exec(t_pipex p, char *av, char **env);
 
 /* utils_fonction */
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
-/* free.c */
-void	free_child(t_pipex p);
-void	free_parent(t_pipex p);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/04/28 13:08:23 by anmassy          ###   ########.fr        #
+#    Updated: 2023/04/29 08:56:02 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRC =	srcs/ft_split.c \
 		srcs/ft_strjoin.c \
 		srcs/error.c \
 		srcs/child.c \
-		srcs/free.c \
 		srcs/pipex.c
 
 SRC_BONUS =	bonus/ft_split.c \

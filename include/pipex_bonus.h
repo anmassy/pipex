@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/28 16:30:19 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 09:04:08 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_pipex
 	char	**cmd_arg;
 	char	**cmd_paths;
 }t_pipex;
-
 
 /* child_bonus.c */
 char	*get_path(char **env);
