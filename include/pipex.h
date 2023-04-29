@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/29 08:55:39 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 13:00:51 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define ERR_OUTFILE "Outfile not correct.\n"
 # define ERR_CMD "Command not found.\n"
 # define ERR_TUBE "Tube dosen't exist\n"
+# define ERR_DUP "error duplicate\n"
 
 typedef struct s_pipex
 {

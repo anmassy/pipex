@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/29 09:04:32 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/04/29 12:58:04 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // 	if (ft_strncmp("here_doc", av[1], 8))
 // 	{
 // 		arg = 3;
-// 		// p.infile = open("here_doc", O_RDONLY);
+		
 // 		p.outfile = open(av[ac - 1], O_TRUNC | O_APPEND | O_CREAT | O_RDWR, 0644);
 // 	}
 // }
@@ -38,10 +38,12 @@ int	main(int ac, char **av, char **env)
 		error_output(ERR_OUTFILE);
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
-	dup2(p.infile, 0);
+	if (dup2(p.infile, 0) == -1)
+		error_msg(ERR_DUP);
 	while (arg < ac - 2)
 		child(p, av[arg++], env);
-	dup2(p.outfile, 1);
+	if (dup2(p.outfile, 1) == -1)
+		error_msg(ERR_DUP);
 	get_exec(p, av[ac - 2], env);
 	return (0);
 }
