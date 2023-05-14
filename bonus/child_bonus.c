@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/29 12:59:08 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:35:03 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	child(t_pipex p, char *av, char **env)
 		close(p.tube[0]);
 		if (dup2(p.tube[1], 1) == -1)
 			error_msg(ERR_DUP);
-		close(p.tube[0]);
+		close(p.tube[1]);
 		get_exec(p, av, env);
 	}
 	else
