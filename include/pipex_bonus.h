@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/14 11:12:36 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/15 11:19:51 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define ERR_TUBE "Tube dosen't exist\n"
 # define ERR_DUP "error duplicate\n"
 
+# define BUFFER_SIZE 2048
+
 typedef struct s_pipex
 {
 	pid_t	pid;
@@ -65,7 +67,6 @@ char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-// int	get_next_line(int fd, char **line);
-char	*get_next_line(int fd);
+char	*write_line(int fd);
 
 #endif

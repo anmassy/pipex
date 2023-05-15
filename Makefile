@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/05/14 10:49:09 by anmassy          ###   ########.fr        #
+#    Updated: 2023/05/15 11:20:12 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_BONUS =	bonus/ft_split.c \
 			bonus/pipex_bonus.c \
 			bonus/error_bonus.c \
 			bonus/child_bonus.c \
-			bonus/gnl.c
+			bonus/write_line.c
 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
