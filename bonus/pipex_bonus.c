@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/15 11:36:55 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/16 11:51:04 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **env)
 		open_file(p, ac, av);
 		if (dup2(p.infile, 0) == -1)
 			error_msg(ERR_DUP);
+		close(p.infile);
 	}
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
@@ -60,6 +61,7 @@ int	main(int ac, char **av, char **env)
 		child(p, av[arg++], env);
 	if (dup2(p.outfile, 1) == -1)
 		error_msg(ERR_DUP);
+	close(p.outfile);
 	get_exec(p, av[ac - 2], env);
 	return (0);
 }

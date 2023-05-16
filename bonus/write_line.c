@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 10:48:32 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/15 11:40:51 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/16 10:01:57 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ char	*write_line(int fd)
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	ret = read(fd, &line, BUFFER_SIZE - BUFFER_SIZE + 1);
+	ret = read(fd, &line, 1);
 	while (ret > 0)
 	{
 		buffer[i++] = line;
 		if (line == '\n')
 			break ;
-		ret = read(fd, &line, BUFFER_SIZE - BUFFER_SIZE + 1);
+		ret = read(fd, &line, 1);
 	}
 	buffer[i] = '\0';
 	return (buffer);
