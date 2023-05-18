@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/15 11:38:04 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:01:40 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_pipex
 
 /* pipex_bonus.c */
 void	*ft_memset(void *s, int c, int n);
-void	open_file(t_pipex p, int ac, char **av);
 
 /* child_bonus.c */
 char	*get_path(char **env);

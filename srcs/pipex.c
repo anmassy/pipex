@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/16 11:48:36 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/18 11:44:37 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 	t_pipex	p;
 	int		arg;
 
-	if (ac < 4)
+	if (ac < 5)
 		error_msg(ERR_INPUT);
 	arg = 2;
 	p.infile = open(av[1], O_RDONLY);
