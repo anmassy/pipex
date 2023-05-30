@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/18 11:44:04 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/23 14:08:21 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*get_exec(t_pipex p, char *av, char **env)
 	char	*cmd_slash;
 
 	p.cmd_arg = ft_split(av, ' ');
+	if (p.paths == NULL)
+		error_msg(ERR_PATHS);
 	while (*p.cmd_paths)
 	{
 		cmd_slash = ft_strjoin(*p.cmd_paths, "/");
@@ -34,10 +36,7 @@ char	*get_exec(t_pipex p, char *av, char **env)
 		if (access(p.cmd, F_OK) == 0)
 		{
 			if (execve (p.cmd, p.cmd_arg, env) == -1)
-			{
-				error_msg(ERR_CMD);
-				exit (1);
-			}
+				error_output(ERR_CMD);
 		}
 		free(p.cmd);
 		p.cmd_paths++;
@@ -48,15 +47,15 @@ char	*get_exec(t_pipex p, char *av, char **env)
 void	child(t_pipex p, char *av, char **env)
 {
 	if (pipe(p.tube) < 0)
-		error_msg(ERR_TUBE);
+		error_output(ERR_TUBE);
 	p.pid = fork();
 	if (p.pid < 0)
-		exit(1);
+		error_output(ERR_TUBE);
 	if (p.pid == 0)
 	{
 		close(p.tube[0]);
 		if (dup2(p.tube[1], 1) == -1)
-			error_msg(ERR_DUP);
+			error_output(ERR_DUP);
 		close(p.tube[1]);
 		close(p.outfile);
 		get_exec(p, av, env);
@@ -65,7 +64,7 @@ void	child(t_pipex p, char *av, char **env)
 	{
 		close(p.tube[1]);
 		if (dup2(p.tube[0], 0) == -1)
-			error_msg(ERR_DUP);
+			error_output(ERR_DUP);
 		close(p.tube[0]);
 		waitpid(p.pid, NULL, 0);
 	}

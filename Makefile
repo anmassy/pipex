@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/05/17 13:28:01 by anmassy          ###   ########.fr        #
+#    Updated: 2023/05/23 14:47:47 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,8 @@ start:
  ║                    by: anmassy                     ║ \n\
  ║                                                    ║ \n\
  ╚════════════════════════════════════════════════════╝"
-	
+
+
 bonus : $(OBJ_BONUS) start
 	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
 	@echo "  ╠═> Bonus mode activated."

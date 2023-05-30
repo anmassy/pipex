@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/04/29 13:00:51 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/26 10:10:06 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@
 /* error_message */
 # define ERR_INPUT "Invalid number of arguments.\n"
 # define ERR_INFILE "Infile not correct.\n"
-# define ERR_OUTFILE "Outfile not correct.\n"
+# define ERR_OUTFILE "Outfile not correct "
 # define ERR_CMD "Command not found.\n"
 # define ERR_TUBE "Tube dosen't exist\n"
 # define ERR_DUP "error duplicate\n"
+# define ERR_PATHS "Error: no PATH\n"
 
 typedef struct s_pipex
 {
@@ -54,8 +55,9 @@ typedef struct s_pipex
 char	*get_path(char **env);
 
 /* error.c */
-int		error_msg(char *err);
-int		error_output(char *err);
+// void	lets_free(char **freeze);
+void	error_msg(char *err);
+void	error_output(char *err);
 
 /* child.c */
 void	child(t_pipex p, char *av, char **env);

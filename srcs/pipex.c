@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/18 11:44:37 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/05/29 12:40:46 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,22 @@ int	main(int ac, char **av, char **env)
 	arg = 2;
 	p.infile = open(av[1], O_RDONLY);
 	if (p.infile < 0)
-		error_output(ERR_INFILE);
+		error_msg(ERR_INFILE);
 	p.outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (p.outfile < 0)
 		error_output(ERR_OUTFILE);
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
 	if (dup2(p.infile, 0) == -1)
-		error_msg(ERR_DUP);
+		error_output(ERR_DUP);
 	close(p.infile);
 	while (arg < ac - 2)
 		child(p, av[arg++], env);
 	if (dup2(p.outfile, 1) == -1)
-		error_msg(ERR_DUP);
+		error_output(ERR_DUP);
 	close(p.outfile);
 	get_exec(p, av[ac - 2], env);
 	return (0);
 }
+
+//pipex obligatoire yes head et cat ls
