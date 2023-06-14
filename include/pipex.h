@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/26 10:10:06 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/14 13:05:34 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@
 
 typedef struct s_pipex
 {
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
 	int		tube[2];
 	int		infile;
 	int		outfile;
@@ -51,17 +52,16 @@ typedef struct s_pipex
 	char	**cmd_paths;
 }t_pipex;
 
-/* pipex.c */
-char	*get_path(char **env);
-
 /* error.c */
-// void	lets_free(char **freeze);
 void	error_msg(char *err);
 void	error_output(char *err);
 
 /* child.c */
-void	child(t_pipex p, char *av, char **env);
-char	*get_exec(t_pipex p, char *av, char **env);
+char	*get_path(char **env);
+char	*get_exec(t_pipex p, char **env);
+void	first_child(t_pipex p, char **av, char **env);
+void	second_child(t_pipex p, char **av, char **env);
+void	child(t_pipex p, char **av, char **env);
 
 /* utils_fonction */
 char	**ft_split(char const *s, char c);

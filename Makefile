@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/05/23 14:47:47 by anmassy          ###   ########.fr        #
+#    Updated: 2023/06/14 14:25:55 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,44 +40,39 @@ GREY = \e[0;30m
 RED = \e[0;31m
 GREEN = \e[0;32m
 
-all : $(NAME)
-
-start:
+$(NAME): $(OBJ)
 	@echo "$(GREY)\
- ╔════════════════════════════════════════════════════╗ \n\
- ║                                                    ║ \n\
- ║        ██████╗ ██╗ ██████╗ ███████╗██╗  ██╗        ║ \n\
- ║        ██╔══██╗██║ ██╔══██╗██╔════╝╚██╗██╔╝        ║ \n\
- ║        ██████╔╝██║ ██████╔╝█████╗   ╚███╔╝         ║ \n\
- ║        ██╔═══╝ ██║ ██╔═══╝ ██╔══╝   ██╔██╗         ║ \n\
- ║        ██║     ██║ ██║     ███████╗██╔╝ ██╗        ║ \n\
- ║        ╚═╝     ╚═╝ ╚═╝     ╚══════╝╚═╝  ╚═╝(|)     ║ \n\
- ║                                                    ║ \n\
- ║                    by: anmassy                     ║ \n\
- ║                                                    ║ \n\
- ╚════════════════════════════════════════════════════╝"
-
-
-bonus : $(OBJ_BONUS) start
-	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
-	@echo "  ╠═> Bonus mode activated."
-	@echo "  ║"
-	@echo "  ╠═> You can now put as many cmd as you want :"
-	@echo "  ║        ╚═> ./pipex file1 cmd1 cmd2 ... cmdn file2"
-	@echo "  ╚═> Don't destroy my code !"
-	@echo ""
-
-%.o: %.c
-	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
-
-$(NAME): $(OBJ) start
+	╔════════════════════════════════════════════════════╗ \n\
+	║                                                    ║ \n\
+	║        ██████╗ ██╗ ██████╗ ███████╗██╗  ██╗        ║ \n\
+	║        ██╔══██╗██║ ██╔══██╗██╔════╝╚██╗██╔╝        ║ \n\
+	║        ██████╔╝██║ ██████╔╝█████╗   ╚███╔╝         ║ \n\
+	║        ██╔═══╝ ██║ ██╔═══╝ ██╔══╝   ██╔██╗         ║ \n\
+	║        ██║     ██║ ██║     ███████╗██╔╝ ██╗        ║ \n\
+	║        ╚═╝     ╚═╝ ╚═╝     ╚══════╝╚═╝  ╚═╝(|)     ║ \n\
+	║                                                    ║ \n\
+	║                    by: anmassy                     ║ \n\
+	║                                                    ║ \n\
+	╚════════════════════════════════════════════════════╝"
 	@$(CC) $(CFLAGS) $(INCS) $(OBJ) -o $(NAME)
+	@echo "  ╠═> compile with : $(CFLAGS)"
+	@echo "  ║"
 	@echo "  ╠═> The code is ready to be executed."
 	@echo "  ║"
 	@echo "  ╠═> You can run my program with ./pipex and 4 arguments :"
 	@echo "  ║        ╚═> ./pipex file1 cmd1 cmd2 file2"
 	@echo "  ╚═> Don't destroy my code !"
 	@echo ""
+	
+all : $(NAME)
+
+bonus : $(OBJ_BONUS)
+	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
+	@echo "   ╚═> compile with : $(CFLAGS)"
+
+%.o: %.c
+	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
+
 
 clean :
 	@echo "$(RED) Cleaning files..."
@@ -91,4 +86,4 @@ fclean : clean
 re : fclean all
 	@echo "$(GREEN) re-make finish"
 
-.PHONY : all start bonus clean fclean re
+.PHONY : all bonus clean fclean re

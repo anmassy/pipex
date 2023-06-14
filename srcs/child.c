@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/23 14:08:21 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/14 14:52:34 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ char	*get_path(char **env)
 	return (ft_strjoin(*env + 5, ""));
 }
 
-char	*get_exec(t_pipex p, char *av, char **env)
+char	*get_exec(t_pipex p, char **env)
 {
 	char	*cmd_slash;
 
-	p.cmd_arg = ft_split(av, ' ');
 	if (p.paths == NULL)
 		error_msg(ERR_PATHS);
 	while (*p.cmd_paths)
@@ -44,28 +43,42 @@ char	*get_exec(t_pipex p, char *av, char **env)
 	return (NULL);
 }
 
-void	child(t_pipex p, char *av, char **env)
+void	first_child(t_pipex p, char **av, char **env)
 {
-	if (pipe(p.tube) < 0)
+	if (dup2(p.tube[1], 1) == -1)
+		error_output(ERR_DUP);
+	close(p.tube[0]);
+	close(p.tube[1]);
+	if (dup2(p.infile, 0) == -1)
+		error_output(ERR_DUP);
+	close(p.infile);
+	p.cmd_arg = ft_split(av[2], ' ');
+	get_exec(p, env);
+}
+
+void	second_child(t_pipex p, char **av, char **env)
+{
+	if (dup2(p.tube[0], 0) == -1)
+		error_output(ERR_DUP);
+	close(p.tube[1]);
+	close(p.tube[0]);
+	if (dup2(p.outfile, 1) == -1)
+		error_output(ERR_DUP);
+	close(p.outfile);
+	p.cmd_arg = ft_split(av[3], ' ');
+	get_exec(p, env);
+}
+
+void	child(t_pipex p, char **av, char **env)
+{
+	p.pid1 = fork();
+	if (p.pid1 < 0)
 		error_output(ERR_TUBE);
-	p.pid = fork();
-	if (p.pid < 0)
+	if (p.pid1 == 0)
+		first_child(p, av, env);
+	p.pid2 = fork();
+	if (p.pid2 < 0)
 		error_output(ERR_TUBE);
-	if (p.pid == 0)
-	{
-		close(p.tube[0]);
-		if (dup2(p.tube[1], 1) == -1)
-			error_output(ERR_DUP);
-		close(p.tube[1]);
-		close(p.outfile);
-		get_exec(p, av, env);
-	}
-	else
-	{
-		close(p.tube[1]);
-		if (dup2(p.tube[0], 0) == -1)
-			error_output(ERR_DUP);
-		close(p.tube[0]);
-		waitpid(p.pid, NULL, 0);
-	}
+	if (p.pid2 == 0)
+		second_child(p, av, env);
 }
