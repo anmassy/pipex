@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/14 13:05:34 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/15 12:36:44 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	error_output(char *err);
 
 /* child.c */
 char	*get_path(char **env);
-char	*get_exec(t_pipex p, char **env);
-void	first_child(t_pipex p, char **av, char **env);
-void	second_child(t_pipex p, char **av, char **env);
-void	child(t_pipex p, char **av, char **env);
+char	*get_exec(t_pipex *p, char **env);
+void	first_child(t_pipex *p, char **av, char **env);
+void	second_child(t_pipex *p, char **av, char **env);
+void	child(t_pipex *p, char **av, char **env);
 
 /* utils_fonction */
 char	**ft_split(char const *s, char c);

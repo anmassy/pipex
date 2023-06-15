@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/06/14 14:25:55 by anmassy          ###   ########.fr        #
+#    Updated: 2023/06/15 11:57:32 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ GREY = \e[0;30m
 RED = \e[0;31m
 GREEN = \e[0;32m
 
+all : $(NAME)
+
 $(NAME): $(OBJ)
 	@echo "$(GREY)\
 	╔════════════════════════════════════════════════════╗ \n\
@@ -64,8 +66,6 @@ $(NAME): $(OBJ)
 	@echo "  ╚═> Don't destroy my code !"
 	@echo ""
 	
-all : $(NAME)
-
 bonus : $(OBJ_BONUS)
 	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
 	@echo "   ╚═> compile with : $(CFLAGS)"
