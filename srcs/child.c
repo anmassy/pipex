@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 14:34:55 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:16:38 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ char	*get_exec(t_pipex *p, char **env)
 		if (access(p->cmd, F_OK) == 0)
 		{
 			if (execve (p->cmd, p->cmd_arg, env) == -1)
+			{
+				free_child(p);
 				error_output(ERR_CMD);
+			}
 		}
 		free(p->cmd);
 		p->cmd_paths++;
@@ -52,6 +55,7 @@ void	first_child(t_pipex *p, char **av, char **env)
 	if (dup2(p->infile, 0) == -1)
 		error_output(ERR_DUP);
 	close(p->infile);
+	close(p->outfile);
 	p->cmd_arg = ft_split(av[2], ' ');
 	if (!get_exec(p, env))
 		error_msg(ERR_CMD);
@@ -65,6 +69,7 @@ void	second_child(t_pipex *p, char **av, char **env)
 	close(p->tube[0]);
 	if (dup2(p->outfile, 1) == -1)
 		error_output(ERR_DUP);
+	close(p->infile);
 	close(p->outfile);
 	p->cmd_arg = ft_split(av[3], ' ');
 	if (!get_exec(p, env))

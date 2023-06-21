@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 14:34:01 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:13:36 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*get_exec(t_pipex p, char **env)
 		{
 			if (execve (p.cmd, p.cmd_arg, env) == -1)
 			{
+				free_child(&p);
 				error_msg(ERR_CMD);
-				exit (1);
 			}
 		}
 		free(p.cmd);
@@ -67,6 +67,8 @@ void	child(t_pipex p, char **av, char **env)
 			dup2(p.tube[2 * p.arg + 1], 1);
 		}
 		close_pipes(&p);
+		close(p.infile);
+		close(p.outfile);
 		p.cmd_arg = ft_split(av[2 + p.arg], ' ');
 		get_exec(p, env);
 	}

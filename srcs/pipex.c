@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/15 12:46:34 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:02:54 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	main(int ac, char **av, char **env)
 	close(p.outfile);
 	waitpid(p.pid1, NULL, 0);
 	waitpid(p.pid2, NULL, 0);
+	free_parent(&p);
 	return (0);
 }

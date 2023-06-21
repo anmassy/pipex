@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 14:38:37 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:07:43 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	child(t_pipex p, char **av, char **env);
 /* error_bonus.c */
 int		error_msg(char *err);
 int		error_output(char *err);
+void	free_parent(t_pipex *p);
+void	free_child(t_pipex *p);
 
 /* utils_fonction */
 char	**ft_split(char const *s, char c);

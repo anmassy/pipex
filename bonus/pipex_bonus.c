@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 14:39:07 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:10:32 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	close_pipes(t_pipex *p)
 	int	i;
 
 	i = 0;
-	while (i < p->pipe_nmbs)
+	while (i < p->tube_nbr)
 	{
 		close(p->tube[i]);
 		i++;
@@ -85,7 +85,9 @@ int	main(int ac, char **av, char **env)
 	while (++(p.arg) < p.cmd_nbr)
 		child(p, av, env);
 	close_pipes(&p);
+	close(p.infile);
+	close(p.outfile);
 	waitpid(-1, NULL, 0);
-	//freeparent
+	free_parent(&p);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:18:58 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 14:35:06 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:04:02 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,32 @@ void	error_output(char *err)
 {
 	perror(err);
 	exit(1);
+}
+
+void	free_parent(t_pipex *p)
+{
+	int	i;
+
+	i = 0;
+	while (p->cmd_paths[i])
+	{
+		free(p->cmd_paths[i]);
+		i++;
+	}
+	free(p->cmd_paths);
+	free(p->paths);
+}
+
+void	free_child(t_pipex *p)
+{
+	int	i;
+
+	i = 0;
+	while (p->cmd_arg[i])
+	{
+		free(p->cmd_arg[i]);
+		i++;
+	}
+	free(p->cmd_arg);
+	free(p->cmd);
 }

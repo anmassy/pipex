@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/15 13:03:14 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:02:11 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_pipex
 /* error.c */
 void	error_msg(char *err);
 void	error_output(char *err);
+void	free_parent(t_pipex *p);
+void	free_child(t_pipex *p);
 
 /* child.c */
 char	*get_path(char **env);
