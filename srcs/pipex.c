@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:25:40 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/15 12:35:06 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/15 12:46:34 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int ac, char **av, char **env)
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
 	child(&p, av, env);
+	close(p.infile);
+	close(p.outfile);
 	waitpid(p.pid1, NULL, 0);
 	waitpid(p.pid2, NULL, 0);
 	return (0);

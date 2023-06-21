@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/17 14:01:40 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 14:38:37 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,34 @@
 # define ERR_CMD "Command not found.\n"
 # define ERR_TUBE "Tube dosen't exist\n"
 # define ERR_DUP "error duplicate\n"
+# define ERR_PIPE "error creat pipes\n"
 
 # define BUFFER_SIZE 2048
 
 typedef struct s_pipex
 {
 	pid_t	pid;
+	int		arg;
 	int		infile;
 	int		outfile;
-	int		tube[2];
+	int		tube_nbr;
+	int		*tube;
 	char	*cmd;
 	char	*paths;
 	char	**cmd_arg;
 	char	**cmd_paths;
+	int		cmd_nbr;
 }t_pipex;
 
 /* pipex_bonus.c */
 void	*ft_memset(void *s, int c, int n);
+void	creat_pipes(t_pipex *p);
+void	close_pipes(t_pipex *p);
 
 /* child_bonus.c */
 char	*get_path(char **env);
-char	*get_exec(t_pipex p, char *av, char **env);
-void	child(t_pipex pipex, char *av, char **env);
+char	*get_exec(t_pipex p, char **env);
+void	child(t_pipex p, char **av, char **env);
 
 /* error_bonus.c */
 int		error_msg(char *err);
@@ -72,6 +78,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char	*write_line(int fd);
 void	exit_doc(t_pipex p, char *limiter);
-void	get_doc(t_pipex p, int ac, char **av, int arg);
+void	get_doc(t_pipex p, int ac, char **av);
 
 #endif

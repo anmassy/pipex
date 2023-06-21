@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/15 12:33:33 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 14:34:55 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	first_child(t_pipex *p, char **av, char **env)
 		error_output(ERR_DUP);
 	close(p->infile);
 	p->cmd_arg = ft_split(av[2], ' ');
-	get_exec(p, env);
+	if (!get_exec(p, env))
+		error_msg(ERR_CMD);
 }
 
 void	second_child(t_pipex *p, char **av, char **env)
@@ -66,7 +67,8 @@ void	second_child(t_pipex *p, char **av, char **env)
 		error_output(ERR_DUP);
 	close(p->outfile);
 	p->cmd_arg = ft_split(av[3], ' ');
-	get_exec(p, env);
+	if (!get_exec(p, env))
+		error_msg(ERR_CMD);
 }
 
 void	child(t_pipex *p, char **av, char **env)

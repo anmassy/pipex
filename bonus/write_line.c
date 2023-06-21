@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 10:48:32 by anmassy           #+#    #+#             */
-/*   Updated: 2023/05/29 12:36:23 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/21 12:34:05 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	exit_doc(t_pipex p, char *limiter)
 	{
 		write(1, "pipe heredoc> ", 14);
 		line = write_line(0);
-		if (ft_strncmp(limiter, line, ft_strlen(limiter)) == 0 && line[ft_strlen(limiter)] == '\n')
+		if (ft_strncmp(limiter, line, ft_strlen(limiter)) == 0
+			&& line[ft_strlen(limiter)] == '\n')
 		{
 			free(line);
 			close(p.tube[1]);
@@ -62,9 +63,9 @@ void	exit_doc(t_pipex p, char *limiter)
 	exit(1);
 }
 
-void	get_doc(t_pipex p, int ac, char **av, int arg)
+void	get_doc(t_pipex p, int ac, char **av)
 {
-	arg = 3;
+	p.arg = 3;
 	if (ac < 6)
 		error_msg(ERR_INPUT);
 	if (pipe(p.tube) < 0)
