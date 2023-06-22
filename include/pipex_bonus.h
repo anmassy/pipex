@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 15:07:43 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/22 10:55:25 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char	*write_line(int fd);
-void	exit_doc(t_pipex p, char *limiter);
+void	exit_doc(t_pipex *p, char *limiter);
 void	get_doc(t_pipex p, int ac, char **av);
 
 #endif

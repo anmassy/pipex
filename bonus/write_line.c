@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 10:48:32 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 12:34:05 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/22 10:57:20 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ char	*write_line(int fd)
 	return (buffer);
 }
 
-void	exit_doc(t_pipex p, char *limiter)
+void	exit_doc(t_pipex *p, char *limiter)
 {
+	int		fd;
 	char	*line;
 
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		error_msg(ERR_INFILE);
 	line = "";
-	close(p.tube[0]);
 	while (line)
 	{
 		write(1, "pipe heredoc> ", 14);
@@ -51,35 +54,15 @@ void	exit_doc(t_pipex p, char *limiter)
 			&& line[ft_strlen(limiter)] == '\n')
 		{
 			free(line);
-			close(p.tube[1]);
 			exit(1);
 		}
-		write(p.tube[1], line, ft_strlen(line));
-		write(p.tube[1], "\n", 1);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
 	free(line);
-	close(p.tube[1]);
-	exit(1);
-}
-
-void	get_doc(t_pipex p, int ac, char **av)
-{
-	p.arg = 3;
-	if (ac < 6)
-		error_msg(ERR_INPUT);
-	if (pipe(p.tube) < 0)
-		error_msg(ERR_TUBE);
-	p.pid = fork();
-	if (p.pid == 0)
-		exit_doc(p, av[2]);
-	else
-	{
-		close(p.tube[1]);
-		if (dup2(p.tube[0], 0) == -1)
-			error_msg(ERR_DUP);
-		close(p.tube[0]);
-		waitpid(p.pid, NULL, 0);
-	}
-	p.outfile = open(av[ac - 1], O_APPEND | O_CREAT | O_RDWR, 0644);
+	close(fd);
+	p->infile = open(".heredoc_tmp", O_RDONLY);
+	if (fd < 0)
+		error_msg(ERR_INFILE);
 }

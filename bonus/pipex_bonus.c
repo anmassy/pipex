@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 15:10:32 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/22 10:54:44 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,12 @@ int	main(int ac, char **av, char **env)
 		error_msg(ERR_INPUT);
 	ft_memset(&p, 0, sizeof(t_pipex));
 	if (ft_strncmp("here_doc", av[1], 8) == 0)
-		get_doc(p, ac, av);
+		exit_doc(&p, av[2]);
 	else
 		open_files(&p, ac, av);
 	p.cmd_nbr = ac - 3;
 	p.tube_nbr = 2 * (p.cmd_nbr - 1);
 	p.tube = (int *)malloc(sizeof(int) * p.tube_nbr);
-	// if (!p.tube)
-		// free
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
 	creat_pipes(&p);
