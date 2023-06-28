@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/22 10:55:25 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/28 15:13:02 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define ERR_DUP "error duplicate\n"
 # define ERR_PIPE "error creat pipes\n"
 
-# define BUFFER_SIZE 2048
+# define BUFFER_SIZE 1024
 
 typedef struct s_pipex
 {
@@ -47,18 +47,19 @@ typedef struct s_pipex
 	int		arg;
 	int		infile;
 	int		outfile;
+	int		cmd_nbr;
 	int		tube_nbr;
+	int		here_doc;
 	int		*tube;
 	char	*cmd;
 	char	*paths;
 	char	**cmd_arg;
 	char	**cmd_paths;
-	int		cmd_nbr;
 }t_pipex;
 
 /* pipex_bonus.c */
+void	init_pipes(t_pipex *p);
 void	*ft_memset(void *s, int c, int n);
-void	creat_pipes(t_pipex *p);
 void	close_pipes(t_pipex *p);
 
 /* child_bonus.c */
@@ -67,7 +68,7 @@ char	*get_exec(t_pipex p, char **env);
 void	child(t_pipex p, char **av, char **env);
 
 /* error_bonus.c */
-int		error_msg(char *err);
+void	error_msg(char *err);
 int		error_output(char *err);
 void	free_parent(t_pipex *p);
 void	free_child(t_pipex *p);
@@ -80,6 +81,5 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char	*write_line(int fd);
 void	exit_doc(t_pipex *p, char *limiter);
-void	get_doc(t_pipex p, int ac, char **av);
 
 #endif

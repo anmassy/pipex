@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/22 10:54:44 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/28 15:25:06 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_memset(void *s, int c, int n)
 	return (str);
 }
 
-void	creat_pipes(t_pipex *p)
+void	init_pipes(t_pipex *p)
 {
 	int	i;
 
@@ -54,12 +54,24 @@ void	close_pipes(t_pipex *p)
 
 void	open_files(t_pipex *p, int ac, char **av)
 {
-	p->infile = open(av[1], O_RDONLY);
-	if (p->infile < 0)
-		error_output(ERR_INFILE);
-	p->outfile = open(av[ac - 1], O_APPEND | O_CREAT | O_RDWR, 0644);
-	if (p->outfile < 0)
-		error_output(ERR_OUTFILE);
+	if (ft_strncmp("here_doc", av[1], 8) == 0)
+	{
+		p->here_doc = 1;
+		exit_doc(p, av[2]);
+		p->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (p->outfile < 0)
+			error_output(ERR_OUTFILE);
+	}
+	else
+	{
+		p->here_doc = 0;
+		p->infile = open(av[1], O_RDONLY);
+		if (p->infile < 0)
+			error_msg(ERR_INFILE);
+		p->outfile = open(av[ac - 1], O_APPEND | O_CREAT | O_RDWR, 0644);
+		if (p->outfile < 0)
+			error_output(ERR_OUTFILE);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -69,23 +81,23 @@ int	main(int ac, char **av, char **env)
 	if (ac < 5)
 		error_msg(ERR_INPUT);
 	ft_memset(&p, 0, sizeof(t_pipex));
-	if (ft_strncmp("here_doc", av[1], 8) == 0)
-		exit_doc(&p, av[2]);
-	else
-		open_files(&p, ac, av);
-	p.cmd_nbr = ac - 3;
+	open_files(&p, ac, av);
+	p.cmd_nbr = ac - 3 - p.here_doc;
 	p.tube_nbr = 2 * (p.cmd_nbr - 1);
 	p.tube = (int *)malloc(sizeof(int) * p.tube_nbr);
+	if (!p.tube)
+		return (0);
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
-	creat_pipes(&p);
+	/*penser a free*/
+	init_pipes(&p);
 	p.arg = -1;
 	while (++(p.arg) < p.cmd_nbr)
 		child(p, av, env);
 	close_pipes(&p);
+	waitpid(-1, NULL, 0);
 	close(p.infile);
 	close(p.outfile);
-	waitpid(-1, NULL, 0);
 	free_parent(&p);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 10:48:32 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/22 10:57:20 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/28 15:24:01 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,13 @@ void	exit_doc(t_pipex *p, char *limiter)
 		line = write_line(0);
 		if (ft_strncmp(limiter, line, ft_strlen(limiter)) == 0
 			&& line[ft_strlen(limiter)] == '\n')
-		{
-			free(line);
-			exit(1);
-		}
+			break ;
 		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
 		free(line);
 	}
 	free(line);
 	close(fd);
 	p->infile = open(".heredoc_tmp", O_RDONLY);
-	if (fd < 0)
+	if (p->infile < 0)
 		error_msg(ERR_INFILE);
 }
