@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 12:54:37 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:03:52 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ char	*get_exec(t_pipex p, char **env)
 	return (NULL);
 }
 
+void	ft_duplicate(t_pipex p)
+{
+	if (p.arg == 0)
+	{
+		dup2(p.infile, 0);
+		dup2(p.tube[1], 1);
+	}
+	else if (p.arg == p.cmd_nbr - 1)
+	{
+		dup2(p.tube[2 * p.arg - 2], 0);
+		dup2(p.outfile, 1);
+	}
+	else
+	{
+		dup2(p.tube[2 * p.arg - 2], 0);
+		dup2(p.tube[2 * p.arg + 1], 1);
+	}
+}
+
 void	child(t_pipex p, char **av, char **env)
 {
 	p.pid = fork();
@@ -51,21 +70,7 @@ void	child(t_pipex p, char **av, char **env)
 		error_output(ERR_TUBE);
 	if (p.pid == 0)
 	{
-		if (p.arg == 0)
-		{
-			dup2(p.infile, 0);
-			dup2(p.tube[1], 1);
-		}
-		else if (p.arg == p.cmd_nbr - 1)
-		{
-			dup2(p.tube[2 * p.arg - 2], 0);
-			dup2(p.outfile, 1);
-		}
-		else
-		{
-			dup2(p.tube[2 * p.arg - 2], 0);
-			dup2(p.tube[2 * p.arg + 1], 1);
-		}
+		ft_duplicate(p);
 		close_pipes(&p);
 		p.cmd_arg = ft_split(av[2 + p.arg], ' ');
 		if (!get_exec(p, env))

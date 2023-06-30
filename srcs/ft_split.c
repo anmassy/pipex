@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 10:52:55 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 12:30:26 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:06:38 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	*free_all(char **string, int position)
 	int	i;
 
 	i = 0;
-
 	while (i < position)
 	{
 		free(string[i]);

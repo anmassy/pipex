@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 11:14:31 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:03:39 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	close_pipes(t_pipex *p);
 /* child_bonus.c */
 char	*get_path(char **env);
 char	*get_exec(t_pipex p, char **env);
+void	ft_duplicate(t_pipex p);
 void	child(t_pipex p, char **av, char **env);
 
 /* error_bonus.c */
