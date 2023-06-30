@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:18:58 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 12:08:42 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 12:55:16 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	free_child(t_pipex *p)
 		i++;
 	}
 	free(p->cmd_arg);
-	free(p->cmd);
 }
 
 void	tube_free(t_pipex *p)
