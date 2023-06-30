@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:24 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/28 15:25:06 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 11:32:36 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_pipes(t_pipex *p)
 	while (i < p->cmd_nbr - 1)
 	{
 		if (pipe(p->tube + 2 * i) < 0)
-			error_msg(ERR_PIPE);
+			free_parent(p);
 		i++;
 	}
 }
@@ -50,6 +50,8 @@ void	close_pipes(t_pipex *p)
 		close(p->tube[i]);
 		i++;
 	}
+	close(p->infile);
+	close(p->outfile);
 }
 
 void	open_files(t_pipex *p, int ac, char **av)
@@ -86,18 +88,17 @@ int	main(int ac, char **av, char **env)
 	p.tube_nbr = 2 * (p.cmd_nbr - 1);
 	p.tube = (int *)malloc(sizeof(int) * p.tube_nbr);
 	if (!p.tube)
-		return (0);
+		error_msg(ERR_TUBE);
 	p.paths = get_path(env);
 	p.cmd_paths = ft_split(p.paths, ':');
-	/*penser a free*/
+	if (!p.cmd_paths)
+		tube_free(&p);
 	init_pipes(&p);
 	p.arg = -1;
 	while (++(p.arg) < p.cmd_nbr)
 		child(p, av, env);
 	close_pipes(&p);
 	waitpid(-1, NULL, 0);
-	close(p.infile);
-	close(p.outfile);
 	free_parent(&p);
 	return (0);
 }

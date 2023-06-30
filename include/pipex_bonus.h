@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/28 15:13:02 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 11:14:31 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define ERR_CMD "Command not found.\n"
 # define ERR_TUBE "Tube dosen't exist\n"
 # define ERR_DUP "error duplicate\n"
-# define ERR_PIPE "error creat pipes\n"
+# define ERR_ENV "paths dosen't exits\n"
 
 # define BUFFER_SIZE 1024
 
@@ -72,6 +72,7 @@ void	error_msg(char *err);
 int		error_output(char *err);
 void	free_parent(t_pipex *p);
 void	free_child(t_pipex *p);
+void	tube_free(t_pipex *p);
 
 /* utils_fonction */
 char	**ft_split(char const *s, char c);

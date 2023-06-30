@@ -1,0 +1,3 @@
+*.o
+.here_doc.tmp
+pipex

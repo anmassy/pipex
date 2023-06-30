@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:18:58 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/28 12:13:34 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 12:20:43 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_parent(t_pipex *p)
 	int	i;
 
 	i = 0;
+	close(p->infile);
+	close(p->outfile);
 	while (p->cmd_paths[i])
 	{
 		free(p->cmd_paths[i]);
@@ -53,5 +55,4 @@ void	free_child(t_pipex *p)
 		i++;
 	}
 	free(p->cmd_arg);
-	free(p->cmd);
 }

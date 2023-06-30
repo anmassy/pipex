@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/28 15:24:29 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 12:18:50 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	child(t_pipex p, char **av, char **env)
 		if (get_exec(p, env))
 		{
 			free_child(&p);
-			free_parent(&p);
 			error_msg(ERR_CMD);
 		}
 	}
