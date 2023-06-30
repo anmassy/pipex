@@ -6,7 +6,7 @@
 #    By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 13:31:34 by anmassy           #+#    #+#              #
-#    Updated: 2023/06/28 15:18:14 by anmassy          ###   ########.fr        #
+#    Updated: 2023/06/30 15:23:14 by anmassy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,10 @@ SRC_BONUS =	bonus/ft_split.c \
 			bonus/error_bonus.c \
 			bonus/child_bonus.c \
 			bonus/write_line.c
+
+ifeq ($(MAKECMDGOALS), bonus)
+	SRC = $(SRC_BONUS)
+endif
 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
@@ -66,13 +70,11 @@ $(NAME): $(OBJ)
 	@echo "  ╚═> Don't destroy my code !"
 	@echo ""
 	
-bonus : $(OBJ_BONUS)
-	@$(CC) $(CFLAGS) $(INCS) $(OBJ_BONUS) -o $(NAME)
-	@echo "   ╚═> compile with : $(CFLAGS)"
-
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
+
+bonus : $(NAME)
 
 clean :
 	@echo "$(RED) Cleaning files..."

@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:24:57 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/21 15:02:11 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 14:12:03 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define ERR_TUBE "Tube dosen't exist\n"
 # define ERR_DUP "error duplicate\n"
 # define ERR_PATHS "Error: no PATH\n"
+# define ERR_ENV "paths dosen't exits\n"
 
 typedef struct s_pipex
 {
@@ -57,6 +58,7 @@ void	error_msg(char *err);
 void	error_output(char *err);
 void	free_parent(t_pipex *p);
 void	free_child(t_pipex *p);
+void	close_and_leave(t_pipex *p);
 
 /* child.c */
 char	*get_path(char **env);

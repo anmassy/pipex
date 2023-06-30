@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:34:43 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 13:04:12 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 15:27:47 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,28 @@ char	*get_path(char **env)
 char	*get_exec(t_pipex *p, char **env)
 {
 	char	*cmd_slash;
+	int		i;
 
+	i = 0;
 	if (p->paths == NULL)
 		error_msg(ERR_PATHS);
-	while (*p->cmd_paths)
+	while (p->cmd_paths[i])
 	{
-		cmd_slash = ft_strjoin(*p->cmd_paths, "/");
+		cmd_slash = ft_strjoin(p->cmd_paths[i], "/");
 		p->cmd = ft_strjoin(cmd_slash, p->cmd_arg[0]);
 		free(cmd_slash);
 		if (access(p->cmd, F_OK) == 0)
 		{
 			if (execve (p->cmd, p->cmd_arg, env) == -1)
 			{
+				free(p->cmd);
 				free_child(p);
+				free_parent(p);
 				error_msg(ERR_CMD);
 			}
 		}
 		free(p->cmd);
-		p->cmd_paths++;
+		i++;
 	}
 	return (NULL);
 }
@@ -60,6 +64,7 @@ void	first_child(t_pipex *p, char **av, char **env)
 	if (!get_exec(p, env))
 	{
 		free_child(p);
+		free_parent(p);
 		error_msg(ERR_CMD);
 	}
 }
@@ -78,6 +83,7 @@ void	second_child(t_pipex *p, char **av, char **env)
 	if (!get_exec(p, env))
 	{
 		free_child(p);
+		free_parent(p);
 		error_msg(ERR_CMD);
 	}
 }

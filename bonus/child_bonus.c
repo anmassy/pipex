@@ -6,7 +6,7 @@
 /*   By: anmassy <anmassy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:06:36 by anmassy           #+#    #+#             */
-/*   Updated: 2023/06/30 13:03:52 by anmassy          ###   ########.fr       */
+/*   Updated: 2023/06/30 15:28:07 by anmassy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,26 @@ char	*get_path(char **env)
 char	*get_exec(t_pipex p, char **env)
 {
 	char	*cmd_slash;
+	int		i;
 
-	while (*p.cmd_paths)
+	i = 0;
+	while (p.cmd_paths[i])
 	{
-		cmd_slash = ft_strjoin(*p.cmd_paths, "/");
+		cmd_slash = ft_strjoin(p.cmd_paths[i], "/");
 		p.cmd = ft_strjoin(cmd_slash, *p.cmd_arg);
 		free(cmd_slash);
 		if (access(p.cmd, F_OK) == 0)
 		{
 			if (execve (p.cmd, p.cmd_arg, env) == -1)
 			{
+				free(p.cmd);
 				free_child(&p);
+				free_parent(&p);
 				error_msg(ERR_CMD);
 			}
 		}
 		free(p.cmd);
-		p.cmd_paths++;
+		i++;
 	}
 	return (NULL);
 }
@@ -72,7 +76,7 @@ void	child(t_pipex p, char **av, char **env)
 	{
 		ft_duplicate(p);
 		close_pipes(&p);
-		p.cmd_arg = ft_split(av[2 + p.arg], ' ');
+		p.cmd_arg = ft_split(av[2 + p.here_doc + p.arg], ' ');
 		if (!get_exec(p, env))
 		{
 			free_child(&p);
